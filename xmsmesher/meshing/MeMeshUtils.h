@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <string>
 #include <vector>
 
@@ -32,37 +33,37 @@ class XmUGrid;
 //----- Structs / Classes ------------------------------------------------------
 
 //----- Function prototypes ----------------------------------------------------
-void meSizeFunctionFromDepth(const VecDbl& a_depths,
+XMSMESHER_EXPORT void meSizeFunctionFromDepth(const VecDbl& a_depths,
                              VecDbl& a_size,
                              double a_minSize,
                              double a_maxSize);
-void meSizeFunctionFromEdgeLengths(std::shared_ptr<XmUGrid> a_grid,
+XMSMESHER_EXPORT void meSizeFunctionFromEdgeLengths(std::shared_ptr<XmUGrid> a_grid,
                                    VecDbl& a_size);
-void meSmoothSizeFunction(BSHP<TrTin> a_tin,
+XMSMESHER_EXPORT void meSmoothSizeFunction(BSHP<TrTin> a_tin,
                           const VecFlt& a_sizes,
                           double a_sizeRatio,
                           double a_minSize,
                           int a_anchorType,
                           const DynBitset& a_ptFlags,
                           VecFlt& a_smoothSize);
-void meSmoothSizeFunction(std::shared_ptr<XmUGrid> a_grid,
+XMSMESHER_EXPORT void meSmoothSizeFunction(std::shared_ptr<XmUGrid> a_grid,
                           const VecFlt& a_sizes,
                           double a_sizeRatio,
                           double a_minSize,
                           int a_anchorType,
                           const DynBitset& a_ptFlags,
                           VecFlt& a_smoothSize);
-void meSmoothElevBySlope(BSHP<TrTin> a_tin,
+XMSMESHER_EXPORT void meSmoothElevBySlope(BSHP<TrTin> a_tin,
                          const VecFlt& a_sizes,
                          double a_maxSize,
                          int a_anchorType,
                          const DynBitset& a_ptFlags,
                          VecFlt& a_smoothSize);
-void meSmoothElevBySlope(std::shared_ptr<XmUGrid> a_grid,
+XMSMESHER_EXPORT void meSmoothElevBySlope(std::shared_ptr<XmUGrid> a_grid,
                          const VecFlt& a_sizes,
                          double a_maxSize,
                          int a_anchorType,
                          const DynBitset& a_ptFlags,
                          VecFlt& a_smoothSize);
-void meModifyMessageWithPolygonId(int a_polyId, std::string& a_msg);
+XMSMESHER_EXPORT void meModifyMessageWithPolygonId(int a_polyId, std::string& a_msg);
 } // namespace xms

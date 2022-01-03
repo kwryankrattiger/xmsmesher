@@ -8,6 +8,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <vector>
 #include <xmscore/points/ptsfwd.h>
 #include <xmscore/misc/base_macros.h>
@@ -24,7 +25,7 @@ class MeRefinePoint;
 //----- Structs / Classes ------------------------------------------------------
 /// \brief Creates polygon from refine point information
 /// \see MeRefinePtsToPolysImpl
-class MeRefinePtsToPolys
+class XMSMESHER_EXPORT MeRefinePtsToPolys
 {
 public:
   static BSHP<MeRefinePtsToPolys> New();

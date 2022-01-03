@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <vector>
@@ -28,7 +29,7 @@ class TrTin;
 class MePolyRedistributePts;
 
 ////////////////////////////////////////////////////////////////////////////////
-class MeRelaxer
+class XMSMESHER_EXPORT MeRelaxer
 {
 public:
   static BSHP<MeRelaxer> New();

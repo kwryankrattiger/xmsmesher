@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 //#include <xmscore/points/ptsfwd.h>
 #include <xmscore/misc/base_macros.h>
 #include <xmscore/misc/boost_defines.h>
@@ -23,7 +24,7 @@ namespace xms
 //----- Structs / Classes ------------------------------------------------------
 /// \brief Generates a mesh with triangle/quad cells using the patch method
 /// \see MePolyPatcherImpl
-class MePolyPatcher
+class XMSMESHER_EXPORT MePolyPatcher
 {
 public:
   static BSHP<MePolyPatcher> New();

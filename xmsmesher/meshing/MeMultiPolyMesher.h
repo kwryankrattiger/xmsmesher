@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <string>
@@ -34,7 +35,7 @@ class MeMultiPolyMesherIo;
 //----- Function prototypes ----------------------------------------------------
 
 ////////////////////////////////////////////////////////////////////////////////
-class MeMultiPolyMesher
+class XMSMESHER_EXPORT MeMultiPolyMesher
 {
 public:
   static boost::shared_ptr<MeMultiPolyMesher> New();

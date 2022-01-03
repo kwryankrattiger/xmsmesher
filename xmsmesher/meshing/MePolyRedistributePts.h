@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <vector>
 #include <xmscore/stl/vector.h>
 #include <xmscore/misc/base_macros.h>
@@ -25,7 +26,7 @@ class InterpBase;
 /// \brief Redistributes the point locations on a polygon based on a size
 /// function
 /// \see MePolyRedistributePtsImpl
-class MePolyRedistributePts
+class XMSMESHER_EXPORT MePolyRedistributePts
 {
 public:
   static BSHP<MePolyRedistributePts> New();

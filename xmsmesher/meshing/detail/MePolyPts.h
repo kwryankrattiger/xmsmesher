@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <list>
 #include <set>
 #include <vector>
@@ -25,7 +26,7 @@ typedef std::set<size_t> SetIdx; ///< typedef for shorter declaration
 
 //----- Structs / Classes ------------------------------------------------------
 /// \brief Utility class to work with polygon paving
-class MePolyPts
+class XMSMESHER_EXPORT MePolyPts
 {
 public:
   MePolyPts();

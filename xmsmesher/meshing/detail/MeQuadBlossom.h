@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <vector>
@@ -31,7 +32,7 @@ class XmUGrid;
 
 //----- Structs / Classes ------------------------------------------------------
 
-class MeQuadBlossom
+class XMSMESHER_EXPORT MeQuadBlossom
 {
 public:
   static BSHP<MeQuadBlossom> New(std::shared_ptr<XmUGrid> a_ugrid);

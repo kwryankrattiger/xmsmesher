@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <string>
@@ -38,7 +39,7 @@ class MeMultiPolyMesherIo;
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Creates a 2dm file of a mesh from polygons
 /// \see MeMultiPolyTo2dmImpl
-class MeMultiPolyTo2dm
+class XMSMESHER_EXPORT MeMultiPolyTo2dm
 {
 public:
   static boost::shared_ptr<MeMultiPolyTo2dm> New();

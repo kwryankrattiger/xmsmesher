@@ -17,6 +17,7 @@ endif ()
 project(xmsmesher C CXX)
 
 include(GNUInstallDirs)
+include(GenerateExportHeader)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Enable/Disable building shared libraries")
 set(BUILD_TESTING NO CACHE BOOL "Enable/Disable testing")
@@ -259,6 +260,14 @@ target_link_libraries(${PROJECT_NAME}
 if (UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} rt)
 endif ()
+generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME xmsmesher/xmsmesher_export.h)
+target_include_directories(xmsmesher
+  PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+install(FILES ${PROJECT_BINARY_DIR}/xmsmesher/xmsmesher_export.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xmsmesher
+  )
 
 if (ENABLE_PYTHON)
     pybind11_add_module(_xmsmesher

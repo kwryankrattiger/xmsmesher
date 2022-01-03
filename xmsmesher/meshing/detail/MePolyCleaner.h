@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <xmscore/stl/vector.h>
 #include <xmscore/misc/base_macros.h>
 #include <xmscore/misc/boost_defines.h>
@@ -23,7 +24,7 @@ class MePolyOffsetterOutput;
 
 /// \brief cleans the output produced by MePolyOffsetter
 /// \see MePolyCleanerImpl
-class MePolyCleaner
+class XMSMESHER_EXPORT MePolyCleaner
 {
 public:
   static BSHP<MePolyCleaner> New();

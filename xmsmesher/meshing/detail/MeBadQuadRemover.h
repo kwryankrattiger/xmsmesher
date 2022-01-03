@@ -14,6 +14,7 @@
 // 4. External library headers
 
 // 5. Shared code headers
+#include <xmsmesher/xmsmesher_export.h>
 #include <xmscore/misc/base_macros.h>
 #include <xmscore/misc/boost_defines.h>
 #include <xmscore/stl/vector.h>
@@ -31,7 +32,7 @@ class XmUGrid;
 
 //----- Structs / Classes ------------------------------------------------------
 
-class MeBadQuadRemover
+class XMSMESHER_EXPORT MeBadQuadRemover
 {
 public:
   static BSHP<MeBadQuadRemover> New(std::shared_ptr<XmUGrid> a_ugrid);
