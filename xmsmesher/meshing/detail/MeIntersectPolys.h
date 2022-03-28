@@ -9,6 +9,7 @@
 //----- Included files ---------------------------------------------------------
 #include <xmscore/misc/base_macros.h>
 #include <xmscore/stl/vector.h>
+#include <xmsmesher/xmsmesher_export.h>
 #include <xmsmesher/meshing/detail/MePolyPts.h>
 
 //----- Forward declarations ---------------------------------------------------
@@ -23,7 +24,7 @@ class MePolyOffsetterOutput;
 //----- Structs / Classes ------------------------------------------------------
 /// \brief Intersect polygons that are a result of the paving process
 /// \see MeIntersectPolysImpl
-class MeIntersectPolys
+class XMSMESHER_EXPORT MeIntersectPolys
 {
   friend MeIntersectPolysUnitTests; ///< tests MeIntersectPolys
 public:

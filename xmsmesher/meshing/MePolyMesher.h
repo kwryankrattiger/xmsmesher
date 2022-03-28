@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <vector>
@@ -36,7 +37,7 @@ class MeMultiPolyMesherIo;
 /// \brief Fills a polygon with a mesh (points and cells). Honors the polygon
 /// boundary.
 /// \see MePolyMesherImpl
-class MePolyMesher
+class XMSMESHER_EXPORT MePolyMesher
 {
 public:
   static boost::shared_ptr<MePolyMesher> New();

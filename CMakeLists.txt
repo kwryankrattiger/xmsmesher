@@ -9,20 +9,21 @@ else ()
 endif ()
 
 if (APPLE)
-  set(CMAKE_POSITION_INDEPENDENT_CODE False)
+  set(CMAKE_POSITION_INDEPENDENT_CODE FALSE)
 else ()
-  set(CMAKE_POSITION_INDEPENDENT_CODE True)
+  set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 endif ()
 
 project(xmsmesher C CXX)
 
 include(GNUInstallDirs)
+include(GenerateExportHeader)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Enable/Disable building shared libraries")
 set(BUILD_TESTING NO CACHE BOOL "Enable/Disable testing")
 set(XMS_BUILD_MODE "CONAN" CACHE STRING "Target packing system to build for.")
 set_property(CACHE XMS_BUILD_MODE PROPERTY STRINGS "CONAN;CONDA;CMAKE")
-set(XMS_BUILD NO CACHE BOOL "Set this if you want to use this package with XMS.")
+set(XMS_BUILD ON CACHE BOOL "Set this if you want to use this package with XMS.")
 set(CONDA_PREFIX "" CACHE PATH "Path to the conda environment used to build.")
 set(ENABLE_PYTHON NO CACHE BOOL "Set this if you want to build the python bindings.")
 set(PYTHON_TARGET_VERSION 3.6 CACHE STRING "Version of python to link to for python wrapping.")
@@ -31,6 +32,11 @@ set(XMS_VERSION "5.2.0" CACHE STRING "Library Version")
 
 add_definitions(-DXMS_VERSION=\"${XMS_VERSION}\")
 
+# Do this because it doesn't work otherwise...
+if (BUILD_SHARED_LIBS AND WIN32)
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif ()
+
 if (ENABLE_PYTHON AND BUILD_TESTING)
   message(FATAL_ERROR "Cannot build python module when testing is enabled")
 endif ()
@@ -38,11 +44,15 @@ endif ()
 if (XMS_BUILD_MODE STREQUAL "CONDA")
   include(${CMAKE_CURRENT_LIST_DIR}/condabuildinfo.cmake)
 elseif (XMS_BUILD_MODE STREQUAL "CMAKE")
+  if (PYTHON_TARGET_VERSION VERSION_LESS 3)
+    message(FATAL_ERROR "XMS requires Python >= 3.0")
+  endif ()
   if (BUILD_SHARED_LIBS)
     set(Boost_USE_STATIC_LIBS OFF)
   else ()
     set(Boost_USE_STATIC_LIBS ON)
   endif ()
+  find_package(ZLIB QUIET REQUIRED)
   find_package(Boost QUIET REQUIRED log_setup log system filesystem serialization timer)
   find_package(XMSCore QUIET REQUIRED
     NAMES xms xmscore)
@@ -50,9 +60,16 @@ elseif (XMS_BUILD_MODE STREQUAL "CMAKE")
     NAMES xms xmsgrid)
   find_package(XMSInterp QUIET REQUIRED
     NAMES xms xmsinterp)
-  list(APPEND EXT_INCLUDE_DIRS ${XMSInterp_INCLUDE_DIRS};${XMSCore_INCLUDE_DIRS};${XMSGrid_INCLUDE_DIRS};${Boost_INCLUDE_DIRS})
+  list(APPEND EXT_INCLUDE_DIRS ${XMSInterp_INCLUDE_DIRS};${XMSCore_INCLUDE_DIRS};${XMSGrid_INCLUDE_DIRS};${Boost_INCLUDE_DIRS};${ZLIB_INCLUDE_DIRS})
   list(APPEND EXT_LIB_DIRS ${XMSInterp_LIBRARY_DIRS};${XMSCore_LIBRARY_DIRS};${XMSGrid_LIBRARY_DIRS};${Boost_LIBRARY_DIRS})
-  list(APPEND EXT_LIBS ${XMSInterp_LIBRARIES};${XMSCore_LIBRARIES};${XMSGrid_LIBRARIES};${Boost_LIBRARIES};z)
+  list(APPEND EXT_LIBS ${XMSInterp_LIBRARIES};${XMSCore_LIBRARIES};${XMSGrid_LIBRARIES};${Boost_LIBRARIES};${ZLIB_LIBRARIES})
+  if (WIN32)
+    if (XMS_BUILD)
+      add_definitions(/Zc:wchar_t)  # Treat wchar_t as built-in type
+      add_definitions(/D _WIN32_WINNT=0x0501)  # Windows XP and higher
+    endif ()
+    add_definitions(/D BOOST_ALL_NO_LIB)
+  endif ()
 else () # If we are not using conda, we are using conan
   # Conan setup
   include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -62,7 +79,7 @@ else () # If we are not using conda, we are using conan
   list(APPEND EXT_LIBS ${CONAN_LIBS})
 endif ()
 
-if (WIN32)
+if (WIN32 AND XMS_BUILD_MODE STREQUAL "CONAN")
     string(COMPARE EQUAL "${CONAN_SETTINGS_COMPILER_RUNTIME}" "MT" USES_MT)
     if (NOT USES_MT)
         string(COMPARE EQUAL "${CONAN_SETTINGS_COMPILER_RUNTIME}" "MTd" USES_MT)
@@ -100,23 +117,23 @@ if (ENABLE_PYTHON)
           include("${CONAN_PYBIND11_ROOT}/share/cmake/pybind11/pybind11Tools.cmake")
       endif ()
       find_package(PythonLibsNew ${PYTHON_TARGET_VERSION} EXACT REQUIRED)
+
+      list(APPEND EXT_INCLUDE_DIRS
+          ${pybind11_INCLUDE_DIR}
+      )
+
+      message("PYTHON_INCLUDE: ${PYTHON_INCLUDE_DIRS}")
+      message("PYTHON_LIBS: ${PYTHON_LIBRARIES}")
+
+      list(APPEND EXT_INCLUDE_DIRS
+        ${PYTHON_INCLUDE_DIRS}
+      )
     else ()
         # New method does not require PythonLibsNew
-        find_package(Python REQUIRED COMPONENTS Interpreter)
-        set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
+        find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
         find_package(pybind11 CONFIG REQUIRED)
+        list(APPEND EXT_LIBS pybind11::pybind11 Python3::Python)
     endif ()
-
-    list(APPEND EXT_INCLUDE_DIRS
-        ${pybind11_INCLUDE_DIR}
-    )
-
-    message("PYTHON_INCLUDE: ${PYTHON_INCLUDE_DIRS}")
-    message("PYTHON_LIBS: ${PYTHON_LIBRARIES}")
-
-    list(APPEND EXT_INCLUDE_DIRS
-      ${PYTHON_INCLUDE_DIRS}
-    )
 endif ()
 
 include_directories(${CMAKE_CURRENT_LIST_DIR})
@@ -243,6 +260,14 @@ target_link_libraries(${PROJECT_NAME}
 if (UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} rt)
 endif ()
+generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME xmsmesher/xmsmesher_export.h)
+target_include_directories(xmsmesher
+  PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+install(FILES ${PROJECT_BINARY_DIR}/xmsmesher/xmsmesher_export.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xmsmesher
+  )
 
 if (ENABLE_PYTHON)
     pybind11_add_module(_xmsmesher

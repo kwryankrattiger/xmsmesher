@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <vector>
@@ -31,7 +32,7 @@ class TrTin;
 
 //----- Structs / Classes ------------------------------------------------------
 
-class MePointConnectionFixer
+class XMSMESHER_EXPORT MePointConnectionFixer
 {
 public:
   static BSHP<MePointConnectionFixer> New(BSHP<TrTin> a_tin);

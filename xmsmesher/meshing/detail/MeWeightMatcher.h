@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 
 // 3. Standard library headers
 #include <vector>
@@ -33,7 +34,7 @@ namespace xms
 /// mesh or they may be adjacent to a common boundary vertex of the mesh but
 /// separated by at least one other face in between them that also shares that
 /// boundary edge.
-struct MeEdge
+struct XMSMESHER_EXPORT MeEdge
 {
   /// Constructor.
   /// \param[in] a_f0 Index of one of the adjacent faces.
@@ -62,7 +63,7 @@ struct MeEdge
 
 typedef std::vector<MeEdge> VecMeEdge; ///< Vector of MeEdge
 
-class MeWeightMatcher
+class XMSMESHER_EXPORT MeWeightMatcher
 {
 public:
   static BSHP<MeWeightMatcher> New();

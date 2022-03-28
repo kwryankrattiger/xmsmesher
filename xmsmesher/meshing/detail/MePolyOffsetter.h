@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <vector>
 #include <xmscore/points/ptsfwd.h>
 #include <xmscore/misc/base_macros.h>
@@ -21,7 +22,7 @@ namespace xms
 
 //----- Structs / Classes ------------------------------------------------------
 /// convenience class for holding output data from the MePolyOffsetter
-class MePolyOffsetterOutput
+class XMSMESHER_EXPORT MePolyOffsetterOutput
 {
 public:
   std::vector<Pt3d> m_pts;                  ///< locations used by polygons
@@ -33,7 +34,7 @@ public:
 /// \brief Does an internal offset from a polygon outer boundary (shrink) and
 /// does an external offset from a polygon inner boundary (buffer)
 /// \see MePolyOffsetterImpl
-class MePolyOffsetter
+class XMSMESHER_EXPORT MePolyOffsetter
 {
 public:
   static BSHP<MePolyOffsetter> New();

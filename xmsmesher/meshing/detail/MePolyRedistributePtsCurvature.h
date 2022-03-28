@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <vector>
 #include <xmscore/stl/vector.h>
 #include <xmscore/misc/base_macros.h>
@@ -22,7 +23,7 @@ namespace xms
 //----- Structs / Classes ------------------------------------------------------
 /// \brief Redistributes the point locations on a polyline or polygon based on curvature
 /// \see MePolyRedistributePtsCurvatureImpl
-class MePolyRedistributePtsCurvature
+class XMSMESHER_EXPORT MePolyRedistributePtsCurvature
 {
 public:
   static BSHP<MePolyRedistributePtsCurvature> New();

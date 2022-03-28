@@ -7,6 +7,7 @@
 #pragma once
 
 //----- Included files ---------------------------------------------------------
+#include <xmsmesher/xmsmesher_export.h>
 #include <vector>
 #include <xmscore/points/ptsfwd.h>
 #include <xmscore/misc/base_macros.h>
@@ -24,7 +25,7 @@ class MePolyRedistributePts;
 //----- Structs / Classes ------------------------------------------------------
 /// \brief Generates mesh node locations by paving a polygon
 /// \see MePolyPaverToMeshPtsImpl
-class MePolyPaverToMeshPts
+class XMSMESHER_EXPORT MePolyPaverToMeshPts
 {
 public:
   static BSHP<MePolyPaverToMeshPts> New();
